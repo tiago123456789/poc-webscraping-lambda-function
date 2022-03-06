@@ -1,0 +1,28 @@
+{
+  "name": "poc-crud-lambda-function",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy:staging": "sls deploy --stage staging",
+    "deploy:production": "sls deploy --stage production",
+    "start:dev": "sls offline start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "avatar-builder": "^1.0.2",
+    "aws-sdk": "^2.1069.0",
+    "axios": "^0.26.0",
+    "cheerio": "^1.0.0-rc.10",
+    "davatar": "^1.0.3",
+    "mongoose": "^6.2.4",
+    "serverless-offline-scheduler": "^0.5.0"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^3.12.2",
+    "serverless-offline": "^8.4.0"
+  }
+}
