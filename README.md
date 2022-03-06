@@ -1,7 +1,7 @@
 ABOUT THE PROJECT:
 ====================
 
-The poc(PROOF OF CONCEPT) simple solution to generate avatar
+The poc(PROOF OF CONCEPT) simple solution to webscraping data the site
 
 INSTRUCTION TO RUNNING PROJECT: 
 ================================
