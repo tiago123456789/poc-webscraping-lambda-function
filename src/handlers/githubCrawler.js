@@ -24,7 +24,7 @@ const extractJobs = (html, dateInitialExtract, dateFinalExtract) => {
         let postedAt = $(item).find("relative-time").attr("datetime")
         postedAt = (new Date(postedAt))
 
-        const isPostedToday = postedAt >= dateInitialExtract  && postedAt <= dateFinalExtract;
+        const isPostedToday = true || postedAt >= dateInitialExtract  && postedAt <= dateFinalExtract;
         if (title && isPostedToday) {
             jobs.push({
                 title,
@@ -39,18 +39,28 @@ const extractJobs = (html, dateInitialExtract, dateFinalExtract) => {
     return jobs
 }
 
-module.exports.getJobs = async (event) => {
-    let response = await axios.get("https://github.com/backend-br/vagas/issues?q=is%3Aissue+is%3Aopen+")
-    let html = response.data;
-    const dateInitialExtract = new Date();
-    dateInitialExtract.setUTCSeconds(0)
-    dateInitialExtract.setUTCMinutes(0)
-    dateInitialExtract.setUTCHours(0)
-
-    const dateFinalExtract = new Date();
-    dateFinalExtract.setUTCSeconds(59)
-    dateFinalExtract.setUTCMinutes(59)
-    dateFinalExtract.setUTCHours(23)
-    let jobs = extractJobs(html, dateInitialExtract, dateFinalExtract)
-    await JobModel.insertMany(jobs)
+module.exports.getJobs = async (event, context, callback) => {
+    context.callbackWaitsForEmptyEventLoop = false
+    try {
+        let response = await axios.get("https://github.com/backend-br/vagas/issues?q=is%3Aissue+is%3Aopen+")
+        let html = response.data;
+        const dateInitialExtract = new Date();
+        dateInitialExtract.setUTCSeconds(0)
+        dateInitialExtract.setUTCMinutes(0)
+        dateInitialExtract.setUTCHours(0)
+    
+        const dateFinalExtract = new Date();
+        dateFinalExtract.setUTCSeconds(59)
+        dateFinalExtract.setUTCMinutes(59)
+        dateFinalExtract.setUTCHours(23)
+        console.log("Extracting jobs now")
+        let jobs = extractJobs(html, dateInitialExtract, dateFinalExtract)
+        console.log("Extracted jobs now")
+        console.log(jobs)
+        await JobModel.insertMany(jobs)
+        console.log("Saved jobs in database")
+        callback(null, {})
+    } catch(error) {
+        callback(error, null)
+    }
 };

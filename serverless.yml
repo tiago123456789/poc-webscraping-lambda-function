@@ -1,5 +1,4 @@
-service: poc-crud-lambda-function
-frameworkVersion: '2'
+service: webscraping-github-jobs
 
 provider:
   name: aws
@@ -7,15 +6,16 @@ provider:
   lambdaHashingVersion: 20201221
 
 plugins:
-  - serverless-offline
-  - serverless-offline-scheduler
   - serverless-dotenv-plugin
 
 functions:
-  getAllPosts:
+  extractJobsRepoBackendbr:
     handler: src/handlers/githubCrawler.getJobs
     events:
-      - schedule: rate(1 minutes)
+      - schedule: 
+          rate: 'cron(*/1 * * * ? *)'
+
+        
 
 # you can add CloudFormation resource templates here
 #resources:

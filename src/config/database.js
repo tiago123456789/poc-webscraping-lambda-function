@@ -1,2 +1,7 @@
 const mongoose = require("mongoose")
-mongoose.connect(process.env.URL_DATABASE);
+
+let cachedConnection = null
+
+if (!cachedConnection) {
+    cachedConnection = mongoose.connect(process.env.URL_DATABASE);
+}
